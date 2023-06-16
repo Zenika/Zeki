@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { ProfileService } from './services/profile/profile.service';
+import {ProfileService} from "./services/profile/profile.service";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.profileService.getProfile().subscribe( (data) => {
+    this.profileService.getProfiles().subscribe( (data) => {
         console.log(data);
     })
   }
