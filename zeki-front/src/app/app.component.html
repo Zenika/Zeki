@@ -1,4 +1,15 @@
 <div>
   <h1>Zeki</h1>
+  <h2>Liste des images</h2>
+  <div class="profiles-container">
+    <ul>
+      <li *ngFor="let profile of profiles">
+        <img [src]="profile.url">
+        <p>{{ profile.name }}</p>
+        <p>{{ profile.surname }}</p>
+        <p>{{ profile.location }}</p>
+      </li>
+    </ul>
+  </div>
 </div>
 <router-outlet></router-outlet>
