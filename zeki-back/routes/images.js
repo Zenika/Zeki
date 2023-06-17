@@ -15,18 +15,6 @@ function getProfilesFromPictures(picturesFiles) {
     return picturesFiles.map(parseFileName);
 }
 
-router.get('/random', function (req, res, next) {
-    const randomIndices = getRandomUniqueIndices(4, picturesFiles.length);
-    const randomImageUrls = randomIndices.map(index => {
-        const image = picturesFiles[index];
-        return {
-            ...parseFileName(image),
-            url: `${req.protocol}://${req.get('host')}/images/${image}`
-        };
-    });
-    res.json(randomImageUrls);
-});
-
 router.get('/all', function (req, res, next) {
     const profilesWithUrl = profiles.map(profile => {
         return {
@@ -81,17 +69,8 @@ function parseFileName(fileName) {
     };
 }
 
-function getRandomProfile() {
-    const randomIndex = Math.floor(Math.random() * profiles.length);
-    const randomProfile = profiles[randomIndex];
-    return {
-        name: randomProfile.name,
-        surname: randomProfile.surname
-    }
-}
-
-function getRandomUniqueProfiles(n, profiles) {
-    const uniqueIndices = getRandomUniqueIndices(n, profiles.length);
+function getRandomUniqueProfiles(numberOfProfiles, profiles) {
+    const uniqueIndices = getRandomUniqueIndices(numberOfProfiles, profiles.length);
     return uniqueIndices.map(index => profiles[index]);
 }
 
