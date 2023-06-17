@@ -85,7 +85,7 @@ router.get('/questions', function (req, res, next) {
             ])
         }
     })
-    res.json(questions);
+    res.json(shuffle(questions));
 });
 
 
