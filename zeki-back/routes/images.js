@@ -3,37 +3,8 @@ const path = require('path');
 const fs = require('fs');
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/random', function (req, res, next) {
-    const imagePath = path.join(__dirname, '../public/images');
-    const imageFiles = fs.readdirSync(imagePath);
-
-    // Choix aléatoire d'une image
-    const randomIndex = randomNotIn(imageFiles.length, []);
-    const randomIndex2 = randomNotIn(imageFiles.length, [randomIndex]);
-    const randomIndex3 = randomNotIn(imageFiles.length, [randomIndex, randomIndex2]);
-    const randomIndex4 = randomNotIn(imageFiles.length, [randomIndex, randomIndex2, randomIndex3]);
-    const randomImage = imageFiles[randomIndex];
-    const badRandomImage2 = imageFiles[randomIndex2];
-    const badRandomImage3 = imageFiles[randomIndex3];
-    const badRandomImage4 = imageFiles[randomIndex4];
-
-// Envoi de l'image
-    const parsedFile = parseFile(randomImage);
-    const parsedFile2 = parseFile(badRandomImage2);
-    const parsedFile3 = parseFile(badRandomImage3);
-    const parsedFile4 = parseFile(badRandomImage4);
-    const imageUrls = {
-        url: `${req.protocol}://${req.get('host')}/images/${randomImage}`,
-        ...parsedFile,
-        badRandomImages: [
-            parsedFile2,
-            parsedFile3,
-            parsedFile4
-        ]
-    }
-    res.json(imageUrls);
-});
+let picturesFiles = getPicturesFiles();
+let profiles = getProfilesFromPictures(picturesFiles);
 
 function getPicturesFiles() {
     const imagePath = path.join(__dirname, '../public/images');
@@ -41,23 +12,23 @@ function getPicturesFiles() {
 }
 
 function getProfilesFromPictures(picturesFiles) {
-    return picturesFiles.map((fileName) => {
-        const splitFileName = fileName.split("_");
-        const name = splitFileName[0];
-        const surname = splitFileName[1];
-        const location = splitFileName[2].split(".")[0];
-        return {
-            name: name,
-            surname: surname,
-            location: location
-        }
-    });
+    return picturesFiles.map(parseFile);
 }
 
+router.get('/random', function (req, res, next) {
+    const randomIndices = getRandomUniqueIndices(4, picturesFiles.length);
+    const randomImageUrls = randomIndices.map(index => {
+        const image = picturesFiles[index];
+        return {
+            ...parseFile(image),
+            url: `${req.protocol}://${req.get('host')}/images/${image}`
+        };
+    });
+    res.json(randomImageUrls);
+});
+
 router.get('/all', function (req, res, next) {
-    const picturesFiles = getPicturesFiles();
-    const profiles = getProfilesFromPictures(picturesFiles);
-    const profilesWithUrl = profiles.map((profile) => {
+    const profilesWithUrl = profiles.map(profile => {
         return {
             ...profile,
             url: `${req.protocol}://${req.get('host')}/images/${profile.name}_${profile.surname}_${profile.location}.jpg`
@@ -67,8 +38,6 @@ router.get('/all', function (req, res, next) {
 });
 
 router.get('/questions', function (req, res, next) {
-    const picturesFiles = getPicturesFiles();
-    const profiles = getProfilesFromPictures(picturesFiles);
     let questions = profiles.map((profile) => {
         const actualProfile = {name: profile.name, surname: profile.surname }
         const fakeProfile = getFakeProfile()
@@ -88,28 +57,20 @@ router.get('/questions', function (req, res, next) {
     res.json(shuffle(questions));
 });
 
-
 function shuffle(array) {
-    let shuffledArray = [];
-    while (array.length > 0) {
-        const randomIndex = Math.floor(Math.random() * array.length);
-        shuffledArray.push(array[randomIndex]);
-        array.splice(randomIndex, 1);
-    }
-    return shuffledArray;
+    return array.sort(() => Math.random() - 0.5);
 }
 
-
-function randomNotIn(length, alreadyExist) {
-    let random = Math.floor(Math.random() * length);
-    while (alreadyExist.includes(random)) {
-        random = Math.floor(Math.random() * length);
+function getRandomUniqueIndices(n, max) {
+    const set = new Set();
+    while (set.size < n) {
+        set.add(Math.floor(Math.random() * max));
     }
-    return random;
+    return Array.from(set);
 }
 
-function parseFile(randomImage) {
-    const parsedFile = randomImage.split("_");
+function parseFile(fileName) {
+    const parsedFile = fileName.split("_");
     const name = parsedFile[0];
     const surname = parsedFile[1];
     const location = parsedFile[2].split(".")[0];
@@ -121,8 +82,6 @@ function parseFile(randomImage) {
 }
 
 function getRandomProfile() {
-    const picturesFiles = getPicturesFiles();
-    const profiles = getProfilesFromPictures(picturesFiles);
     const randomIndex = Math.floor(Math.random() * profiles.length);
     const randomProfile = profiles[randomIndex];
     return {
