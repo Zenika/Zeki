@@ -1,7 +1,9 @@
 var express = require('express');
 const path = require('path');
+const fakeProfiles = require('../fakeProfiles');
 const fs = require('fs');
 var router = express.Router();
+
 
 let picturesFiles = getPicturesFiles();
 let profiles = getProfilesFromPictures(picturesFiles);
@@ -75,91 +77,8 @@ function getRandomUniqueProfiles(numberOfProfiles, profiles) {
 }
 
 function getFakeProfile() {
-    const randomIndex = Math.floor(Math.random() * fakeProfile.length);
-    return fakeProfile[randomIndex];
+    const randomIndex = Math.floor(Math.random() * fakeProfiles.length);
+    return fakeProfiles[randomIndex];
 }
-
-const fakeProfile = [
-    {
-        "name": "Thomas",
-        "surname": "Pesquet"
-    },
-    {
-        "name": "Omar",
-        "surname": "Sy"
-    },
-    {
-        "name": "Kylian",
-        "surname": "Mbappé"
-    },
-    {
-        "name": "Kim",
-        "surname": "Kardashian"
-    },
-    {
-        "name": "Bob",
-        "surname": "Léponge"
-    },
-    {
-        "name": "Elon",
-        "surname": "Musk"
-    },
-    {
-        "name": "Maitre",
-        "surname": "Gims"
-    },
-    {
-        "name": "Pierre",
-        "surname": "Niney"
-    },
-    {
-        "name": "Jonathan",
-        "surname": "Cohen"
-    },
-    {
-        "name": "Tahar",
-        "surname": "Rahim"
-    },
-    {
-        "name": "Leïle",
-        "surname": "Bekhti"
-    },
-    {
-        "name": "Izïa",
-        "surname": "Higelin"
-    },
-    {
-        "name": "Carl",
-        "surname": "Pitt"
-    },
-    {
-        "name": "Romain",
-        "surname": "Depp"
-    },
-    {
-        "name": "Patrick",
-        "surname": "Swayze"
-    },
-    {
-        "name": "Rocky",
-        "surname": "Balboa"
-    },
-    {
-        "name": "Marion",
-        "surname": "Cotillard"
-    },
-    {
-        "name": "Eva",
-        "surname": "Green"
-    },
-    {
-        "name": "Nathalie",
-        "surname": "Porteman"
-    },
-    {
-        "name": "Tonton",
-        "surname": "David"
-    }
-]
 
 module.exports = router;
