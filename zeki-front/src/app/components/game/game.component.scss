@@ -1,0 +1,62 @@
+.container {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;}
+
+@font-face {
+  font-family: 'DigitalFont';
+  src: url('./digital-7.ttf') format('truetype');
+}
+
+.digit {
+  font-family: 'DigitalFont', monospace;
+  font-size: 100px;
+  font-weight: bold;
+  color: red;
+  padding: 0 5px;
+}
+
+.digits {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clock {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 200px;
+  height: 200px;
+}
+
+.score-container {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+.score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.score-label {
+  font-family: 'DigitalFont', monospace;
+  font-size: 100px;
+  font-weight: bold;
+  color: #333;
+  margin-right: 5px;
+}
+
+.score-value {
+  font-family: 'DigitalFont', monospace;
+  font-size: 100px;
+  font-weight: bold;
+  color: #333;
+}

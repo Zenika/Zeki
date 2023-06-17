@@ -1,1 +1,13 @@
-<p>home works!</p>
+<div>
+  <div class="profiles-container">
+    <div class="card-container">
+      <div *ngFor="let profile of profiles">
+        <img [src]="profile.url">
+        <div class="card-details">
+          <p class="card-name">{{ profile.name + " " + profile.surname }}</p>
+          <p class="card-location">{{ "Agence: " + profile.location }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
