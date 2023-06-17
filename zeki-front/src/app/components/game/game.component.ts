@@ -36,7 +36,7 @@ export class GameComponent implements OnInit {
   }
 
   checkAnswer(answer: Answer): boolean {
-    if (this.questions[this.questionIndex].solution == answer) {
+    if (this.questions[this.questionIndex].solution.surname == answer.surname && this.questions[this.questionIndex].solution.name == answer.name) {
       this.questionIndex++;
       this.score+=100;
       return true;
