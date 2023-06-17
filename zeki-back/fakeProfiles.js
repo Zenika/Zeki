@@ -81,4 +81,10 @@ const fakeProfiles = [
     }
 ]
 
-module.exports = fakeProfiles;
+function getFakeProfile() {
+    const randomIndex = Math.floor(Math.random() * fakeProfiles.length);
+    return fakeProfiles[randomIndex];
+}
+
+
+module.exports = getFakeProfile;

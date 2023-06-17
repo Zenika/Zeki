@@ -1,6 +1,6 @@
 var express = require('express');
 const path = require('path');
-const fakeProfiles = require('../fakeProfiles');
+const getFakeProfile = require('../fakeProfiles');
 const fs = require('fs');
 var router = express.Router();
 
@@ -29,19 +29,14 @@ router.get('/all', function (req, res, next) {
 
 router.get('/quiz', function (req, res, next) {
     let questions = profiles.map((profile) => {
-        const actualProfile = {name: profile.name, surname: profile.surname }
+        const actualProfile = {name: profile.name, surname: profile.surname}
         const filteredProfiles = profiles.filter((p) => p.name !== profile.name && p.surname !== profile.surname);
-        const [randomProfile1, randomProfile2] =  getRandomUniqueProfiles(2, filteredProfiles)
+        const [randomProfile1, randomProfile2] = getRandomUniqueProfiles(2, filteredProfiles)
         const fakeProfile = getFakeProfile()
         return {
             picture: `${req.protocol}://${req.get('host')}/images/${profile.name}_${profile.surname}_${profile.location}.jpg`,
             solution: actualProfile,
-            answers: shuffle([
-                actualProfile,
-                fakeProfile,
-                randomProfile1,
-                randomProfile2
-            ])
+            answers: shuffle([actualProfile, fakeProfile, randomProfile1, randomProfile2])
         }
     })
     res.json(shuffle(questions));
@@ -64,11 +59,7 @@ function parseFileName(fileName) {
     const name = parsedFile[0];
     const surname = parsedFile[1];
     const location = parsedFile[2].split(".")[0];
-    return {
-        name,
-        surname,
-        location
-    };
+    return {name, surname, location};
 }
 
 function getRandomUniqueProfiles(numberOfProfiles, profiles) {
@@ -76,9 +67,5 @@ function getRandomUniqueProfiles(numberOfProfiles, profiles) {
     return uniqueIndices.map(index => profiles[index]);
 }
 
-function getFakeProfile() {
-    const randomIndex = Math.floor(Math.random() * fakeProfiles.length);
-    return fakeProfiles[randomIndex];
-}
 
 module.exports = router;
