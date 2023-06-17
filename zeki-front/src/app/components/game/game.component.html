@@ -11,5 +11,10 @@
       <p class="score-value">{{ score }}</p>
     </div>
   </div>
-  <img [src]="questions[questionIndex]">
+  <div class="image-container">
+    <img [src]=questions[questionIndex].picture alt="Image">
+  </div>
+  <div class="quiz-container" *ngFor="let answer of questions[questionIndex].answers">
+    <button class="quiz-button" (click)="checkAnswer(answer)">{{answer.name + " " + answer.surname}}</button>
+  </div>
 </div>
