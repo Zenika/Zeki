@@ -1,0 +1,22 @@
+<div *ngIf="!pseudoIsDone" class="participant-form">
+  <h2>Entrez votre nom :</h2>
+  <form (ngSubmit)="submitForm()">
+    <input type="text" [(ngModel)]="participantName" name="participantName" required>
+    <button type="submit">Valider</button>
+  </form>
+</div>
+
+<div class="score-table" *ngIf="pseudoIsDone">
+  <!-- Tableau des scores à afficher -->
+  <div class="score-table">
+    <div class="table-row header-row">
+      <div class="table-cell">Name</div>
+      <div class="table-cell">Score</div>
+    </div>
+    <div class="table-row" *ngFor="let score of scores">
+      <div class="table-cell">{{ score.name }}</div>
+      <div class="table-cell">{{ score.score }}</div>
+    </div>
+  </div>
+</div>
+

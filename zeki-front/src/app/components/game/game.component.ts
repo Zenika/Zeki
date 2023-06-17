@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileService} from "../../services/profile/profile.service";
 import {Answer, Question} from "../../services/profile/Question";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -9,12 +10,12 @@ import {Answer, Question} from "../../services/profile/Question";
 })
 export class GameComponent implements OnInit {
 
-  timer: number = 60;
+  timer: number = 30;
   score: number = 0;
   questions: Question[] = [];
   questionIndex: number = 0;
 
-  constructor(private profileService: ProfileService) {
+  constructor(private profileService: ProfileService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -23,6 +24,7 @@ export class GameComponent implements OnInit {
       if (this.timer < 0) {
         clearInterval(timerInterval);
         this.timer = 0;
+        this.router.navigate(['/score', {score: this.score}])
       }
     }, 1000);
     this.profileService.getQuestions().subscribe((data) => {
@@ -38,10 +40,10 @@ export class GameComponent implements OnInit {
   checkAnswer(answer: Answer): boolean {
     if (this.questions[this.questionIndex].solution.surname == answer.surname && this.questions[this.questionIndex].solution.name == answer.name) {
       this.questionIndex++;
-      this.score+=100;
+      this.score += 100;
       return true;
     }
-    this.score-=100;
+    this.score -= 100;
     this.questionIndex++;
     return false;
   }

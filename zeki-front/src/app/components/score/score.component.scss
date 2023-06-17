@@ -1,0 +1,54 @@
+.score-table {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  border: 1px solid #000;
+  border-spacing: 0;
+}
+
+.table-row {
+  display: flex;
+  align-items: center;
+}
+
+.header-row {
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+}
+
+.table-cell {
+  flex: 1;
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid #000;
+}
+
+.table-cell:first-child {
+  border-left: 1px solid #000;
+}
+
+.table-cell:last-child {
+  border-right: 1px solid #000;
+}
+
+.participant-form {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.participant-form h2 {
+  margin-top: 0;
+}
+
+.participant-form form {
+  display: inline-block;
+}
+
+.participant-form input {
+  padding: 5px;
+}
+
+.score-table {
+  /* Styles du tableau des scores */
+}
