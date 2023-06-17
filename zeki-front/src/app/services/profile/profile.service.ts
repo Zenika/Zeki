@@ -13,8 +13,8 @@ export class ProfileService {
   constructor(private http: HttpClient) {
   }
 
-  profilesUrl = 'http://localhost:3000/images/all'
-  questionsUrl = 'http://localhost:3000/images/questions'
+  profilesUrl = 'http://localhost:3000/profiles/all'
+  questionsUrl = 'http://localhost:3000/profiles/quiz'
 
   getProfiles(): Observable<Profile[]> {
     return this.http.get<Profile[]>(this.profilesUrl);
