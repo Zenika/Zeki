@@ -15,7 +15,6 @@ router.get('/all', function (req, res, next) {
             url: `${req.protocol}://${req.get('host')}/images/${profile.name}_${profile.surname}_${profile.location}.jpg`
         }
     })
-    res.set('Cache-Control', 'public, max-age=86400'); // 86400 seconds = 1 day
     res.json(profilesWithUrl);
 });
 
