@@ -25,7 +25,7 @@ router.get('/all', function (req, res, next) {
     res.json(profilesWithUrl);
 });
 
-router.get('/questions', function (req, res, next) {
+router.get('/quiz', function (req, res, next) {
     let questions = profiles.map((profile) => {
         const actualProfile = {name: profile.name, surname: profile.surname }
         const filteredProfiles = profiles.filter((p) => p.name !== profile.name && p.surname !== profile.surname);
