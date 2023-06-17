@@ -12,7 +12,7 @@ function getPicturesFiles() {
 }
 
 function getProfilesFromPictures(picturesFiles) {
-    return picturesFiles.map(parseFile);
+    return picturesFiles.map(parseFileName);
 }
 
 router.get('/random', function (req, res, next) {
@@ -20,7 +20,7 @@ router.get('/random', function (req, res, next) {
     const randomImageUrls = randomIndices.map(index => {
         const image = picturesFiles[index];
         return {
-            ...parseFile(image),
+            ...parseFileName(image),
             url: `${req.protocol}://${req.get('host')}/images/${image}`
         };
     });
@@ -40,9 +40,9 @@ router.get('/all', function (req, res, next) {
 router.get('/questions', function (req, res, next) {
     let questions = profiles.map((profile) => {
         const actualProfile = {name: profile.name, surname: profile.surname }
+        const filteredProfiles = profiles.filter((p) => p.name !== profile.name && p.surname !== profile.surname);
+        const [randomProfile1, randomProfile2] =  getRandomUniqueProfiles(2, filteredProfiles)
         const fakeProfile = getFakeProfile()
-        const randomProfile1 =  getRandomProfile()
-        const randomProfile2 = getRandomProfile()
         return {
             picture: `${req.protocol}://${req.get('host')}/images/${profile.name}_${profile.surname}_${profile.location}.jpg`,
             solution: actualProfile,
@@ -69,7 +69,7 @@ function getRandomUniqueIndices(n, max) {
     return Array.from(set);
 }
 
-function parseFile(fileName) {
+function parseFileName(fileName) {
     const parsedFile = fileName.split("_");
     const name = parsedFile[0];
     const surname = parsedFile[1];
@@ -88,6 +88,11 @@ function getRandomProfile() {
         name: randomProfile.name,
         surname: randomProfile.surname
     }
+}
+
+function getRandomUniqueProfiles(n, profiles) {
+    const uniqueIndices = getRandomUniqueIndices(n, profiles.length);
+    return uniqueIndices.map(index => profiles[index]);
 }
 
 function getFakeProfile() {
