@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="clock">
+    <div class="digits">
+      <span class="digit">{{ getDigit(timer, 0) }}</span>
+      <span class="digit">{{ getDigit(timer, 1) }}</span>
+    </div>
+  </div>
+  <div class="score-container">
+    <div class="score">
+      <p class="score-label">Score :</p>
+      <p class="score-value">{{ score }}</p>
+    </div>
+  </div>
+  <img [src]="questions[questionIndex]">
+</div>
