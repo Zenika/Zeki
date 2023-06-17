@@ -8,15 +8,6 @@ var router = express.Router();
 let picturesFiles = getPicturesFiles();
 let profiles = getProfilesFromPictures(picturesFiles);
 
-function getPicturesFiles() {
-    const imagePath = path.join(__dirname, '../public/images');
-    return fs.readdirSync(imagePath);
-}
-
-function getProfilesFromPictures(picturesFiles) {
-    return picturesFiles.map(parseFileName);
-}
-
 router.get('/all', function (req, res, next) {
     const profilesWithUrl = profiles.map(profile => {
         return {
@@ -31,8 +22,8 @@ router.get('/quiz', function (req, res, next) {
     let questions = profiles.map((profile) => {
         const actualProfile = {name: profile.name, surname: profile.surname}
         const filteredProfiles = profiles.filter((p) => p.name !== profile.name && p.surname !== profile.surname);
-        const [randomProfile1, randomProfile2] = getRandomUniqueProfiles(2, filteredProfiles)
         const fakeProfile = getFakeProfile()
+        const [randomProfile1, randomProfile2] = getRandomUniqueProfiles(2, filteredProfiles)
         return {
             picture: `${req.protocol}://${req.get('host')}/images/${profile.name}_${profile.surname}_${profile.location}.jpg`,
             solution: actualProfile,
@@ -41,6 +32,15 @@ router.get('/quiz', function (req, res, next) {
     })
     res.json(shuffle(questions));
 });
+function getPicturesFiles() {
+    const imagePath = path.join(__dirname, '../public/images');
+    return fs.readdirSync(imagePath);
+}
+
+function getProfilesFromPictures(picturesFiles) {
+    return picturesFiles.map(parseFileName);
+}
+
 
 function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
