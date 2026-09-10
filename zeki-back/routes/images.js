@@ -45,4 +45,4 @@ router.get('/all', function (req, res, next) {
     res.json(imageUrls);
 });
 
-module.exports = router;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+module.exports = router;
